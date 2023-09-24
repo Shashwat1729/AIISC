@@ -6,11 +6,18 @@ import os
 API_ENDPOINT = 'https://stablediffusionapi.com/api/v4/dreambooth'
 API_KEY = 'sH36b0MEzMnUCQmI6gMqL5Qbbgl32uB2gVWUSIjk4ZsmnqHudwHMj9pxlsBQ'  # Replace with your actual API key
 
-# Path to the text file containing prompts
-PROMPT_FILE_PATH = 'D:\Downloads\AIISC\AGID\prompts.txt'
+# Path to the text file containing prompts, using a relative path to the parent directory
+PROMPT_FILE_PATH = '../prompts.txt'  # Assumes prompts.txt is in the parent directory
 
-# Folder to save output images
-OUTPUT_FOLDER = 'D:\Downloads\AIISC\AGID\Dream Shaper\Output'
+# Folder to save output images, use a relative path to the current directory
+OUTPUT_FOLDER = 'Output'
+
+# Get the current directory where the script is located
+current_dir = os.path.dirname(__file__)
+
+# Combine the current directory with the relative paths
+PROMPT_FILE_PATH = os.path.normpath(os.path.join(current_dir, PROMPT_FILE_PATH))
+OUTPUT_FOLDER = os.path.normpath(os.path.join(current_dir, OUTPUT_FOLDER))
 
 # Create the output folder if it doesn't exist
 os.makedirs(OUTPUT_FOLDER, exist_ok=True)

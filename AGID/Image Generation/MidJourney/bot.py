@@ -6,11 +6,21 @@ import os
 # Your Discord bot token
 TOKEN = 'MTE1NTMyMzEwMjE5NzE5ODk3OA.Gg1kx6.6mFzMtCdoduBjpB7mPXrgwoI9Wp4DHdewr070E'
 
-# Path to the text file containing prompts
-PROMPT_FILE_PATH = r'D:\Downloads\AIISC\AGID\prompts.txt'
+# Path to the text file containing prompts, using a relative path to the parent directory
+PROMPT_FILE_PATH = '../prompts.txt'  # Assumes prompts.txt is in the parent directory
 
-# Folder to save output images
-OUTPUT_FOLDER = r'D:\Downloads\AIISC\AGID\MidJourney\Output'
+# Folder to save output images, use a relative path to the current directory
+OUTPUT_FOLDER = 'Output'
+
+# Get the current directory where the script is located
+current_dir = os.path.dirname(__file__)
+
+# Combine the current directory with the relative paths
+PROMPT_FILE_PATH = os.path.normpath(os.path.join(current_dir, PROMPT_FILE_PATH))
+OUTPUT_FOLDER = os.path.normpath(os.path.join(current_dir, OUTPUT_FOLDER))
+
+# Create the output folder if it doesn't exist
+os.makedirs(OUTPUT_FOLDER, exist_ok=True)
 
 # Initialize the Discord bot with a command prefix
 intents = discord.Intents.default()
