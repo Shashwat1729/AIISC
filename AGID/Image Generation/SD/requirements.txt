@@ -1,0 +1,16 @@
+accelerate
+clip
+diffusers
+ftfy
+numpy
+PIL
+pandas
+regex
+scipy
+safetensors
+tokenizers
+torch
+torchvision
+tqdm
+transformers
+xformers
