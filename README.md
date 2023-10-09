@@ -42,7 +42,15 @@ Before running the scripts, ensure you have the following:
 
 Here's an example of the `prompts.txt` file:
 
+- A giant 150yearold banyan tree in Lahaina Hawaii was badly burned in the fires that ravaged Maui last month Then green shoots began to unfurl around its trunk hinting at the possibility of recovery for the tree and the community
 
+- How did you do in Connections today Youre given 16 words Your mission Identify the hidden relationships and organize them into four distinct groups of four
+
+- Have you ever wondered why we name hurricanes The New York Times meteorologist Judson Jones explains
+
+- The third annual New York Times Restaurant List is here It wasnt easy to narrow it down but here are the 50 best restaurants in the US
+
+- It is the best chili I ever made or ate So much flavor so good This recipe makes a thick comforting chili that can be prepared in a slow cooker or in a Dutch oven on the stovetop
 
 Running the script with these prompts will generate images corresponding to each prompt and save them in the `Output` folder.
 
