@@ -62,7 +62,7 @@ Running the script with these prompts will generate images corresponding to each
 
 - Ensure that the required Python libraries are installed and that your Python environment is set up correctly.
 
-- For more information on the specific model and its API, refer to the official documentation.
+- For more information on the specific model and its API, refer to the [official documentation](https://stablediffusionapi.com).
 
 
 
