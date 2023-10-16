@@ -14,3 +14,5 @@ torchvision
 tqdm
 transformers
 xformers
+opencv
+os
