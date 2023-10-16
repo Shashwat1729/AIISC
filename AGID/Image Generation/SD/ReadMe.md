@@ -1,10 +1,11 @@
 
-#### Step1.) First install the requirements in an virtual environment   
-#### Step2.)Have the SD.py, similairyt_score.py scripts in the same directory   
-#### Step3.) Run the SD.py to generate images in terminal
+## Stable Diffusion
 
+ Step1.) First install the requirements in an virtual environment   
+ Step2.) Have the SD.py, similairty_score.py scripts in the same directory   
+ Step3.) Run the SD.py to generate images in terminal
 
-#### Use the below command to run the stable diffusion script.The arguments are CSV PATH, IMAGE DIR PATH, NUMBER OF IMAGES PER PROMPT, CLIP THRESHOLD, VGG THRESHOLD
+###### Use the below command to run the stable diffusion script.The arguments are CSV PATH, IMAGE DIR PATH, NUMBER OF IMAGES PER PROMPT, CLIP THRESHOLD, VGG THRESHOLD
 
 Code expects the CSV file to have an id column, and tweets in tweetContentProcessed column
 
