@@ -20,3 +20,5 @@ os
 regex
 io
 requests
+argparse
+shutil
