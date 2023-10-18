@@ -18,3 +18,5 @@ xformers==0.0.22.post4
 opencv-python==4.1.2.30
 os
 regex
+io
+requests
