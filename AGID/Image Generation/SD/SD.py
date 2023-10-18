@@ -4,7 +4,6 @@ from tqdm import tqdm
 import numpy as np
 import pandas as pd
 import argparse
-import shutil
 
 # Image Processing
 from PIL import Image
