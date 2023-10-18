@@ -1,16 +1,27 @@
 
-## Stable Diffusion
+# Stable Diffusion
 
- Step1.) First install the requirements in an virtual environment   
- Step2.) Have the SD.py, similairty_score.py scripts in the same directory   
- Step3.) Run the SD.py to generate images in terminal
+ ## Step1.) First install the requirements in an virtual environment   
 
-###### Use the below command to run the stable diffusion script.The arguments are CSV PATH, IMAGE DIR PATH, NUMBER OF IMAGES PER PROMPT, CLIP THRESHOLD, VGG THRESHOLD
+ Install the requirements using the command
+ ```pip install -r requirements.txt```
 
-Code expects the CSV file to have an id column, and tweets in tweetContentProcessed column
+## Step 2: Organize Your Files
+Place the SD.py and similarity_score.py scripts in the same directory for easy access.
 
-VGG threshold: The Threshold value for similarity between images using VGG embeddings below which we  discard the generated images.  
-Clip threshold: The Threshold value for similarity between images using Clip embeddings below which we  discard the generated images
+## Step 3: Run the Stable Diffusion Script
+To generate images from text prompts, run the SD.py script in your terminal or command prompt. Use the following command with the specified arguments:
+
+--CSV_PATH: The path to the CSV file containing your data, where the CSV should have an 'id' column and tweet content in the 'tweetContentProcessed' column.
+
+--ORIGINAL_DIR: The path to the directory where original images are stored.
+
+--NUM_IMAGES_PER_PROMPT: The number of images to generate per text prompt.
+
+--THRESHOLD_CLIP: The Clip threshold, which sets a similarity threshold between images using Clip embeddings. Images with a similarity below this threshold will be discarded.
+
+--THRESHOLD_VGG: The VGG threshold, which sets a similarity threshold between images using VGG embeddings. Images with a similarity below this threshold will be discarded.
+
 ```
 python SD.py --CSV_PATH AIISC/NYT.csv --ORIGINAL_DIR AIISC/tweetImages/ --NUM_IMAGES_PER_PROMPT 3 --THRESHOLD_CLIP 0.60 --THRESHOLD_VGG 0.65
 ```
