@@ -1,0 +1,17 @@
+clip @ git+https://github.com/openai/CLIP.git@a1d071733d7111c9c014f024669f959182114e33
+ftfy==6.1.1
+numpy==1.19.2
+pandas
+scipy
+safetensors==0.4.0
+tokenizers==0.14.1
+tqdm
+torch==2.0.1
+torchvision==0.15.2 
+transformers==4.19.2
+opencv-python
+pillow
+io
+time
+requests
+argparse
