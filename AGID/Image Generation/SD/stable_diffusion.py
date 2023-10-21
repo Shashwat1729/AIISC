@@ -38,8 +38,8 @@ THRESHOLD_VGG = args.threshold_vgg
 
 
 print('Reading the Data!!')
-df=pd.read_csv(args.csv_path)
-prompts=list(df.tweetContentProcessed[args.last_tweet_id])
+data=pd.read_csv(args.csv_path)
+df=data[args.last_tweet_id+1 :]
 
 # Directory to store the Images
 OUTPUT_DIR='Data-Generated/'
@@ -69,9 +69,10 @@ similarity=ImageSimilarity()
 print('Start Generating images')
 
 try:
-  for i,prompt in enumerate(tqdm(prompts)):
+  for _,row in tqdm(df.iterrows(),total=len(df), desc="Processing prompts"):
+    prompt=row['tweetContentProcessed']
     max_score = 0
-    idx = str(df.id[i])
+    idx = str(row['id'])
     image_path =  ORIGINAL_DIR + idx + '.jpg'
 
     if os.path.exists(image_path): original_image = Image.open(image_path)
