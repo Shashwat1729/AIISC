@@ -7,7 +7,7 @@
  ```pip install -r requirements.txt```
 
 ## Step 2: Organize Your Files
-Place the SD.py and similarity_score.py scripts in the same directory for easy access.
+Place the stable_diffusion.py and similarity_score.py scripts in the same directory for easy access.
 
 ## Step 3: Run the Stable Diffusion Script
 To generate images from text prompts, run the SD.py script in your terminal or command prompt. Use the following command with the specified arguments:
@@ -22,6 +22,8 @@ To generate images from text prompts, run the SD.py script in your terminal or c
 
 --THRESHOLD_VGG: The VGG threshold, which sets a similarity threshold between images using VGG embeddings. Images with a similarity below this threshold will be discarded.
 
+-- last_tweet_id: Last processed tweet before the model stopped running
+
 ```
-python SD.py --CSV_PATH AIISC/NYT.csv --ORIGINAL_DIR AIISC/tweetImages/ --NUM_IMAGES_PER_PROMPT 3 --THRESHOLD_CLIP 0.60 --THRESHOLD_VGG 0.65
+python stable_diffusion.py -csv_path /NYT.csv --original_dir tweetImages/ --threshold_clip 0.40 --threshold_vgg 0.4 number_images_per_prompt 3 --last_tweet_id 520
 ```
