@@ -2,17 +2,18 @@ accelerate==0.23.0
 clip @ git+https://github.com/openai/CLIP.git@a1d071733d7111c9c014f024669f959182114e33
 diffusers==0.21.4
 ftfy==6.1.1
-numpy
-pandas
-scipy
+tensorflow==2.8
+libcudnn8==8.1.0.77-1+cuda11.2
 safetensors==0.4.0
 tokenizers==0.14.1
-tqdm
 torch==2.0.1
 torchvision==0.15.2 
 transformers==4.19.2
 xformers==0.0.22.post4
-tensorflow
+numpy
+pandas
+scipy
+tqdm
 scikit-learn
 opencv-python
 pillow
