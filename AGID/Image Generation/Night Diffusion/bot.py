@@ -10,7 +10,7 @@ API_KEY = 'sH36b0MEzMnUCQmI6gMqL5Qbbgl32uB2gVWUSIjk4ZsmnqHudwHMj9pxlsBQ'
 PROMPT_FILE_PATH = '../prompts.txt'  # Assumes prompts.txt is in the parent directory
 
 # Folder to save output images, use a relative path to the current directory
-OUTPUT_FOLDER = 'Output'
+OUTPUT_FOLDER = input("Enter the path to the output folder: ")
 
 # Get the current directory where the script is located
 current_dir = os.path.dirname(__file__)
