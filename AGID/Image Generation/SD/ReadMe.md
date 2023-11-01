@@ -12,18 +12,24 @@ Place the stable_diffusion.py and similarity_score.py scripts in the same direct
 ## Step 3: Run the Stable Diffusion Script
 To generate images from text prompts, run the SD.py script in your terminal or command prompt. Use the following command with the specified arguments:
 
---CSV_PATH: The path to the CSV file containing your data, where the CSV should have an 'id' column and tweet content in the 'tweetContentProcessed' column.
+--excel_path: The path to the CSV file containing your data, where the CSV should have an 'id' column and tweet content in the 'tweetContentProcessed' column.
 
---ORIGINAL_DIR: The path to the directory where original images are stored.
+--original_img_dir: The path to the directory where original images are stored.  
 
---NUM_IMAGES_PER_PROMPT: The number of images to generate per text prompt.
+--output_dir: The path to the output directory
 
---THRESHOLD_CLIP: The Clip threshold, which sets a similarity threshold between images using Clip embeddings. Images with a similarity below this threshold will be discarded.
+--API_TOKEN : API Token of the model (Not Required for Stable diffusion)
 
---THRESHOLD_VGG: The VGG threshold, which sets a similarity threshold between images using VGG embeddings. Images with a similarity below this threshold will be discarded.
+--num_images_per_prompt: The number of images to generate per text prompt.
 
--- last_tweet_id: Last processed tweet before the model stopped running
+--threshold_clip: The Clip threshold, which sets a similarity threshold between images using Clip embeddings. Images with a similarity below this threshold will be discarded.
+
+--threshold_vgg: The VGG threshold, which sets a similarity threshold between images using VGG embeddings. Images with a similarity below this threshold will be discarded.
+
+--gen_model: Name of the generation model 
+
+--last_tweet_id: Last processed tweet before the model stopped running
 
 ```
-python stable_diffusion.py -csv_path /NYT.csv --original_dir tweetImages/ --threshold_clip 0.40 --threshold_vgg 0.4 number_images_per_prompt 3 --last_tweet_id 520
+python stable_diffusion.py --excel_path AIISC/NYT.csv --original_img_dir AIISC/tweetImages/  --output_dir /  --threshold_clip 0.40 --threshold_vgg 0.4 --gen_model "SD" --num_images_per_prompt 2
 ```
