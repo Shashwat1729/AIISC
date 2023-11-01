@@ -31,7 +31,7 @@ parser.add_argument('--output_dir', type=str, help='Directory to store the image
 parser.add_argument('--threshold_clip', type=float, help='Threshold for similarity using CLIP embeddings')
 parser.add_argument('--threshold_vgg', type=float, help='Threshold for similarity using VGG embeddings')
 parser.add_argument('--gen_model',help='Name of the generation model')
-parser.add_argument('--num_images_per_prompt', type=int, default=3, help='Number of images per prompt')
+parser.add_argument('--num_images_per_prompt', type=int, default=2, help='Number of images per prompt')
 parser.add_argument('--last_tweet_id',type=int,default=0,help='Last processed tweet incase of Failue')
 
 args = parser.parse_args()
@@ -99,6 +99,7 @@ try:
       else: original_image = img
     else:
         print(f'Error: Image file not found for ID: {idx}')
+        continue
 
     best_clip_similarity = -1
     best_vgg_similarity = -1
@@ -113,7 +114,6 @@ try:
             best_clip_similarity = clip_similarity
             best_vgg_similarity = vgg_similarity
             best_output_image = output_image
-
 
       if clip_similarity > THRESHOLD_CLIP and vgg_similarity > THRESHOLD_VGG:
         output_image.save(f'{thresholded_images}/{idx}.jpg')
