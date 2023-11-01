@@ -10,52 +10,54 @@ import time
 
 # Image Processing
 from PIL import Image
-import clip
-
-# Image Generation
-from transformers import CLIPTokenizer
-import torch
 
 # Image similarity
-from Simililarity_Score import ImageSimilarity
+from similarityScore import ImageSimilarity
 
 
 # Arguments
 parser=argparse.ArgumentParser(description='Python Script to Generate Stable Diffusion Images')
 
-parser.add_argument("--CSV_PATH",type=str,help='Pass the path of CSV file (e.g /content/data.csv)')
-parser.add_argument('--ORIGINAL_DIR',type=str,help='Directory path of Images (e.g /content/images/)')
-parser.add_argument('--API_TOKEN',type=str,help='API token for Modelshoot from HuggingFace')
-parser.add_argument('--THRESHOLD_CLIP',type=float,help='Threshold for similarity using CLIP Embeddings')
-parser.add_argument('--THRESHOLD_VGG',type=float,help='Threshold for similarity using VGG Embeddings')
-parser.add_argument('--NUM_IMAGES_PER_PROMPT',type=int,default=2,help='Number of Images per prompt')
+
+parser.add_argument("--excel_path", type=str, help='Pass the path of CSV file (e.g /content/data.csv)')
+parser.add_argument('--original_img_dir', type=str, help='Directory path of images (e.g /content/images/)')
+parser.add_argument('--API_TOKEN',type=str,help='API token for Model')
+parser.add_argument('--output_dir', type=str, help='Directory to store the images')
+parser.add_argument('--threshold_clip', type=float, help='Threshold for similarity using CLIP embeddings')
+parser.add_argument('--threshold_vgg', type=float, help='Threshold for similarity using VGG embeddings')
+parser.add_argument('--gen_model',help='Name of the generation model')
+parser.add_argument('--num_images_per_prompt', type=int, default=2, help='Number of images per prompt')
+parser.add_argument('--last_tweet_id',type=int,default=0,help='Last processed tweet incase of Failue')
+
 
 args = parser.parse_args()
 
 # Access the parsed arguments
-csv_path = args.CSV_PATH
-ORIGINAL_DIR = args.ORIGINAL_DIR
-NUM_IMAGES_PER_PROMPT = args.NUM_IMAGES_PER_PROMPT
-THRESHOLD_CLIP = args.THRESHOLD_CLIP
-THRESHOLD_VGG = args.THRESHOLD_VGG
+ORIGINAL_DIR = args.original_img_dir
+NUM_IMAGES_PER_PROMPT = args.num_images_per_prompt
+THRESHOLD_CLIP = args.threshold_clip
+THRESHOLD_VGG = args.threshold_vgg
 API_TOKEN=args.API_TOKEN
 
+
 print('Reading the Data!!')
-df=pd.read_csv(csv_path)
-prompts=list(df.tweetContentProcessed)
+data=pd.read_excel(args.excel_path)
+df=data[args.last_tweet_id+1 :]
 
-# Directory to store the Images
-OUTPUT_DIR='Data-Generated/'
-
+# Directory to store the Generated Images
+OUTPUT_DIR=os.path.join(args.output_dir,f'{args.gen_model}')
+all_images= os.path.join(OUTPUT_DIR,'Data-Generated') # Folder to store all the generated images
+thresholded_images=os.path.join(OUTPUT_DIR,'Useful-Data') # Folder to generated images post threshold on similarity
+score_df = pd.DataFrame(columns=['Image_ID', 'CLIP_Score', 'VGG_Score'])
 
 if not os.path.exists(OUTPUT_DIR):
     os.makedirs(OUTPUT_DIR)
 
-DEVICE = 'cuda' if torch.cuda.is_available else 'cpu' # device
-STRENGTH = 0.3 # The noise to add to original image
-NUM_INFERENCE_STEPS = 30 # Number of inference steps to the Diffusion Model
+if not os.path.exists(all_images):
+    os.makedirs(all_images)
 
-print(f'Loading the Models to {DEVICE}')
+if not os.path.exists(thresholded_images):
+    os.makedirs(thresholded_images)
 
 API_URL = "https://api-inference.huggingface.co/models/wavymulder/modelshoot"
 headers = {"Authorization": f"Bearer {API_TOKEN}"}
@@ -64,20 +66,32 @@ def query(payload):
     response = requests.post(API_URL, headers=headers, json=payload)
     return response.content
 
-CLIP,preprocess = clip.load("ViT-B/32", device=DEVICE)
-
 
 similarity=ImageSimilarity()
 
 print('Start Generating images')
 time.sleep(15)
+
 try:
-  for i,prompt in enumerate(tqdm(prompts)):
-    time.sleep(2)
-    max_score = 0
-    idx = str(df.id[i])
+  for _,row in tqdm(df.iterrows(),total=len(df), desc="Processing prompts"):
+    
+    prompt=row['tweetContentProcessed']
+    idx = str(row['id'])
     image_path =  ORIGINAL_DIR + idx + '.jpg'
-    original_image = Image.open(image_path)
+
+    # Error checking for original image (Checking Path,Image Format)
+    if os.path.exists(image_path):
+      img=Image.open(image_path)
+      if img.mode != 'RGB':
+          print(f'Grayscale image found for ID: {idx}')
+          continue  
+      else: original_image = img
+    else:
+        print(f'Error: Image file not found for ID: {idx}')
+        continue
+
+    best_clip_similarity = -1
+    best_vgg_similarity = -1
 
     for j in range(NUM_IMAGES_PER_PROMPT):
         
@@ -86,17 +100,26 @@ try:
             output_image = Image.open(io.BytesIO(image_bytes))
         except Exception as e:
             print(image_bytes)
-            time.sleep(3)  # Wait for 3 seconds
             break
+
         clip_similarity = similarity.get_similarity_score(output_image, original_image, model_name="CLIP")
         vgg_similarity = similarity.get_similarity_score(output_image, original_image, model_name="VGG")
 
+        if clip_similarity > best_clip_similarity and vgg_similarity > best_vgg_similarity:
+                best_clip_similarity = clip_similarity
+                best_vgg_similarity = vgg_similarity
+                best_output_image = output_image
+
+
         if clip_similarity > THRESHOLD_CLIP and vgg_similarity > THRESHOLD_VGG:
-            output_image.save(f'{OUTPUT_DIR}/{idx}.jpg')
+            output_image.save(f'{thresholded_images}/{idx}.jpg')
             break
 
+    best_output_image.save(f'{all_images}/{idx}.jpg')
+    score_df = score_df.append({'Image_ID': idx, 'CLIP_Score': best_clip_similarity, 'VGG_Score': best_vgg_similarity}, ignore_index=True)
+
 except Exception as e:
-  print(f'Error:{e}')
+    print(f'Error: {e}')
 
 
-
+finally: score_df.to_csv(OUTPUT_DIR+'/score.csv',index=False) # Saving the score to Output directory 
