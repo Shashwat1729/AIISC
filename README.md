@@ -1,4 +1,4 @@
-# AIISC
+## AGID(AI Generated Image Detection)
  # Model Image Generation
 
 This repository contains Python scripts for generating images using various models provided by Stable Diffusion, including **Dream Shaper**, **F22**, and **Night Diffusion**. These scripts read prompts from a text file and send requests to the respective model APIs to generate images based on these prompts. The generated images are saved in the `Output` folder.
