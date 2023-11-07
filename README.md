@@ -54,6 +54,26 @@ Here's an example of the `prompts.txt` file:
 
 Running the script with these prompts will generate images corresponding to each prompt and save them in the `Output` folder.
 
+## Currently Supported Models
+
+As of the latest update, this repository provides scripts for generating images using the following models:
+
+- Stable Diffusion
+- Dall-E
+- DreamShaper
+- Night Diffusion
+- F22
+- Crystal Clear
+- Realistic Vision
+- SDXL
+- SDXL Unstable Diffuser
+- SDXLceshi
+- ModelShoot
+- Midjourney
+- Imagen
+
+Please note that these models are the ones currently supported. Any potential additional models or changes will be announced and documented in future updates.
+
 ## Important Notes
 
 - Make sure you have proper permissions to access the specific model's API and that your API key is correctly set in the script.
@@ -63,6 +83,5 @@ Running the script with these prompts will generate images corresponding to each
 - Ensure that the required Python libraries are installed and that your Python environment is set up correctly.
 
 - For more information on the specific model and its API, refer to the [official documentation](https://stablediffusionapi.com).
-
 
 
